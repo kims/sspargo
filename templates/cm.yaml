@@ -6,7 +6,7 @@ metadata:
 data:
   "0": |
     <?php
-    $keyphrase = "my-very-secret-keyphrase"; // CHANGE THIS
+    $keyphrase = "y-very-secret-keyphrase"; // CHANGE THIS
     $ldap_url = "ldap://your-ldap-server:389"; // CHANGE THIS
     $ldap_binddn = "cn=manager,dc=example,dc=com"; // CHANGE THIS
     $ldap_bindpw = 'secret'; // CHANGE THIS
