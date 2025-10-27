@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssp-service-clusterip
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: self-service-password
+spec:
+  selector:
+    app: self-service-password # Matches the labels on your Deployment/Pods
+  ports:
+    - protocol: TCP
+      port: 80           # The port the Service itself will be exposed on (within the cluster)
+      targetPort: 80     # The port the container is listening on (check your image/Deployment)
+  type: ClusterIP
