@@ -8,7 +8,7 @@ data:
     <?php
     $keyphrase = "y-very-secret-keyphrase"; // CHANGE THIS
     $ldap_url = "ldap://your-ldap-server:389"; // CHANGE THIS
-    $ldap_binddn = "cn=manager,dc=example,dc=com"; // CHANGE THIS
+    $ldap_binddn = "cn=managerc=com"; // CHANGE THIS
     $ldap_bindpw = 'secret'; // CHANGE THIS
     $ldap_base = "dc=example,dc=com"; // CHANGE THIS
     $ldap_login_attribute = "uid"; // CHANGE THIS
