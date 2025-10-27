@@ -10,4 +10,3 @@ data:
     $ldap_login_attribute = "uid"; // CHANGE THIS
     ?>
 kind: ConfigMap
-namespace: ssp-argo
