@@ -1,27 +1,28 @@
+# ssp-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "podinfo.fullname" . }}
-  labels:
-    {{- include "podinfo.labels" . | nindent 4 }}
+  name: self-service-password
 spec:
-  replicas: {{ .Values.replicaCounter }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "podinfo.selectorLabels" . | nindent 6 }}
+      app: ssp
   template:
     metadata:
       labels:
-        {{- include "podinfo.selectorLabels" . | nindent 8 }}
+        app: ssp
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.targetPort }}
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-
+      - name: ssp-container
+        image: ltbproject/self-service-password:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: ssp-config-volume
+          mountPath: /var/www/conf/config.inc.local.php
+          subPath: config.inc.local.php
+      volumes:
+      - name: ssp-config-volume
+        configMap:
+          name: ssp-config # References the ConfigMap created earlier
