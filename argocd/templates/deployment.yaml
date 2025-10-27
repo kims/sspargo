@@ -26,4 +26,7 @@ spec:
       volumes:
       - name: ssp-config-volume
         configMap:
-          name: ssp-config # References the ConfigMap created earlier
+          name: ssp-config
+          items:
+          - key: config.inc.local.php # The key in the ConfigMap's 'data' section
+            path: config.inc.local.php # The name of the file created inside the volume (must match subPath)
