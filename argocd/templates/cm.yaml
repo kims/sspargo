@@ -1,6 +1,7 @@
 apiVersion: v1
 metadata:
   name: ssp-config
+  namespace: {{ .Values.namespace }}
   labels:
     app: self-service-password
 data:
