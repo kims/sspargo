@@ -1,4 +1,8 @@
 apiVersion: v1
+metadata:
+  name: ssp-config
+  labels:
+    app: self-service-password
 data:
   "0": |
     <?php
