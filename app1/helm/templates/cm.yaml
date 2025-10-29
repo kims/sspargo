@@ -1,0 +1,17 @@
+apiVersion: v1
+metadata:
+  name: ssp-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: self-service-password
+data:
+  "0": |
+    <?php
+    $keyphrase = "y-very-secret-keyphrase"; // CHANGE THIS
+    $ldap_url = "ldap://your-ldap-server:389"; // CHANGE THIS
+    $ldap_binddn = "cn=manageqrc=com"; // CHANGE THIS
+    $ldap_bindpw = 'secret'; // CHANGE THIS
+    $ldap_base = "dc=example,dc=com"; // CHANGE THIS
+    $ldap_login_attribute = "uid"; // CHANGE THIS
+    ?>
+kind: ConfigMap

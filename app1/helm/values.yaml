@@ -1,0 +1,14 @@
+# Default values for podinfo chart.
+replicaCount: 1
+namespace: dev1
+
+image:
+  repository: ltbproject/self-service-password
+  tag: latest
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    memory: "64Mi"
+    cpu: "100m"
+
