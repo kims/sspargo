@@ -13,7 +13,8 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              cp /ksops /custom-tools/ksops
+              ls
+              cp /usr/local/bin/ksops /custom-tools/ksops;
           volumeMounts:
             - mountPath: /custom-tools
               name: custom-tools
