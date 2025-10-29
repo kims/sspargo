@@ -5,9 +5,9 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: dev1
     server: https://kubernetes.default.svc
-  project: default
+  project: app1-project
   source:
     path: app1/
     repoURL: https://github.com/kims/ssp-argocd

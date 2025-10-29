@@ -9,7 +9,7 @@ data:
     - url: https://github.com/kims/ssp-argocd.git
       name: app
       type: git
-  
+  url: "localhost:8080"
   # Create user accounts
   accounts.dev1: apiKey, login
   accounts.dev2: apiKey, login

@@ -9,7 +9,7 @@ spec:
   
   # Allow deployments to app1 namespace only
   destinations:
-  - namespace: app1
+  - namespace: dev1
     server: https://kubernetes.default.svc
   
   # Allow access to repo-app1
@@ -37,7 +37,7 @@ spec:
   
   # Allow deployments to app2 namespace only
   destinations:
-  - namespace: app2
+  - namespace: dev2
     server: https://kubernetes.default.svc
   
   # Allow access to repo-app2
