@@ -1,0 +1,55 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: app1-project
+  namespace: argocd
+spec:
+  description: Project for app1 applications
+  
+  # Allow deployments to app1 namespace only
+  destinations:
+  - namespace: app1
+    server: https://kubernetes.default.svc
+  
+  # Allow access to repo-app1
+  sourceRepos:
+  - https://github.com/your-org/repo-app1.git
+  
+  # Cluster resource whitelist
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  
+  # Namespace resource whitelist (all resources in app1 namespace)
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: app2-project
+  namespace: argocd
+spec:
+  description: Project for app2 applications
+  
+  # Allow deployments to app2 namespace only
+  destinations:
+  - namespace: app2
+    server: https://kubernetes.default.svc
+  
+  # Allow access to repo-app2
+  sourceRepos:
+  - https://github.com/your-org/repo-app2.git
+  
+  # Cluster resource whitelist
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  
+  # Namespace resource whitelist (all resources in app2 namespace)
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'

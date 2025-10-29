@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  # Add repositories
+  repositories: |
+    - url: https://github.com/your-org/repo-app1.git
+      name: repo-app1
+      type: git
+    - url: https://github.com/your-org/repo-app2.git
+      name: repo-app2
+      type: git
+  
+  # Create user accounts
+  accounts.dev1: apiKey, login
+  accounts.dev2: apiKey, login
