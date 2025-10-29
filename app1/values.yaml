@@ -1,6 +1,6 @@
 # Default values for podinfo chart.
 replicaCount: 1
-namespace: sspargocd
+namespace: dev1
 
 image:
   repository: ltbproject/self-service-password

@@ -14,7 +14,7 @@ spec:
   
   # Allow access to repo-app1
   sourceRepos:
-  - https://github.com/your-org/repo-app1.git
+  - https://github.com/kims/ssp-argocd.git
   
   # Cluster resource whitelist
   clusterResourceWhitelist:
@@ -42,7 +42,7 @@ spec:
   
   # Allow access to repo-app2
   sourceRepos:
-  - https://github.com/your-org/repo-app2.git
+  - https://github.com/kims/ssp-argocd.git
   
   # Cluster resource whitelist
   clusterResourceWhitelist:

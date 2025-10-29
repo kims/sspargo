@@ -6,11 +6,8 @@ metadata:
 data:
   # Add repositories
   repositories: |
-    - url: https://github.com/your-org/repo-app1.git
-      name: repo-app1
-      type: git
-    - url: https://github.com/your-org/repo-app2.git
-      name: repo-app2
+    - url: https://github.com/kims/ssp-argocd.git
+      name: app
       type: git
   
   # Create user accounts

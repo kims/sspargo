@@ -5,14 +5,17 @@ metadata:
   namespace: argocd
 data:
   policy.csv: |
+    p, role:admin, *, *, *, allow
+    g, admin, role:admin
+
     # Policy for dev1 - access to app1 namespace only
-    p, role:dev1-role, applications, *, app1/*, allow
+    p, role:dev1-role, applications, *, dev1/*, allow
     p, role:dev1-role, repositories, get, *, allow
     p, role:dev1-role, clusters, get, *, allow
     p, role:dev1-role, projects, get, app1-project, allow
     
     # Policy for dev2 - access to app2 namespace only
-    p, role:dev2-role, applications, *, app2/*, allow
+    p, role:dev2-role, applications, *, dev2/*, allow
     p, role:dev2-role, repositories, get, *, allow
     p, role:dev2-role, clusters, get, *, allow
     p, role:dev2-role, projects, get, app2-project, allow

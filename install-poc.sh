@@ -1,65 +1,35 @@
-#!/bin/bash
-set -e
+kubectl create namespace dev1 --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace dev2 --dry-run=client -o yaml | kubectl apply -f -
+kubectl patch configmap argocd-cm -n argocd --patch-file ConfigMap.argocd-cm-patch.yaml
+kubectl patch configmap argocd-rbac-cm -n argocd --patch-file ConfigMap.argocd-rbac-cm-patch.yaml
+kubectl apply -f AppProjects.app-project.yaml
+kubectl port-forward svc/argocd-server -n argocd 8080:443 >/dev/null 2>&1 &
+ARGOCD_SERVER="localhost:8080"
+ADMIN_PASSWORD=$(kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}' | base64 -d)
+argocd login $ARGOCD_SERVER --username admin --password "$ADMIN_PASSWORD" --insecure
 
-echo "=== ArgoCD Configuration Setup ==="
-echo ""
 
-# Create namespaces if they don't exist
-echo "1. Creating namespaces..."
-kubectl create namespace app1 --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace app2 --dry-run=client -o yaml | kubectl apply -f -
+HASH=$(htpasswd -bnBC 10 "" "password123" | tr -d ':\n')
+kubectl patch secret argocd-secret -n argocd --type merge \
+  -p "{\"stringData\":{
+    \"accounts.dev1.password\":\"$HASH\",
+    \"accounts.dev1.passwordMtime\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+  }}"
+kubectl patch secret argocd-secret -n argocd --type merge \
+  -p "{\"stringData\":{
+    \"accounts.dev2.password\":\"$HASH\",
+    \"accounts.dev2.passwordMtime\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+  }}"
 
-# Backup existing configs (optional but recommended)
-echo ""
-echo "2. Backing up existing configurations..."
-kubectl get configmap argocd-cm -n argocd -o yaml > argocd-cm-backup.yaml
-kubectl get configmap argocd-rbac-cm -n argocd -o yaml > argocd-rbac-cm-backup.yaml
-kubectl get secret argocd-secret -n argocd -o yaml > argocd-secret-backup.yaml
-echo "   Backups saved to: argocd-*-backup.yaml"
+argocd repo add git@github.com:kims/ssp-argocd --ssh-private-key-path ~/.ssh/flux_app_key
 
-# Patch ConfigMaps and Secret
-echo ""
-echo "3. Patching ArgoCD configurations..."
-kubectl patch configmap argocd-cm -n argocd --patch-file argocd-cm-patch.yaml
-kubectl patch configmap argocd-rbac-cm -n argocd --patch-file argocd-rbac-cm-patch.yaml
-kubectl patch secret argocd-secret -n argocd --patch-file argocd-secret-patch.yaml
+kubectl create -f app1/Application.yaml
+kubectl create -f app2/Application.yaml
 
-# Apply AppProjects
-echo ""
-echo "4. Creating AppProjects..."
-kubectl apply -f argocd-projects.yaml
-
-# Restart ArgoCD components
-echo ""
-echo "5. Restarting ArgoCD components..."
 kubectl rollout restart deployment argocd-server -n argocd
 kubectl rollout restart deployment argocd-repo-server -n argocd
-
-echo ""
-echo "6. Waiting for rollout to complete..."
 kubectl rollout status deployment argocd-server -n argocd --timeout=60s
 kubectl rollout status deployment argocd-repo-server -n argocd --timeout=60s
 
-echo ""
-echo "=== Configuration Complete! ==="
-echo ""
-echo "👤 User Accounts Created:"
-echo "   • dev1 (access to app1 namespace)"
-echo "   • dev2 (access to app2 namespace)"
-echo ""
-echo "🔐 Default Password: password123 (CHANGE THIS!)"
-echo ""
-echo "📦 Repositories Configured:"
-echo "   • repo-app1"
-echo "   • repo-app2"
-echo ""
-echo "📝 Next Steps:"
-echo "   1. Update repository URLs in argocd-cm-patch.yaml"
-echo "   2. Change user passwords:"
-echo "      argocd login <argocd-server>"
-echo "      argocd account update-password --account dev1"
-echo "      argocd account update-password --account dev2"
-echo ""
-echo "   3. Get admin password (if needed):"
-echo "      kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}' | base64 -d"
-echo ""
+pkill -f "kubectl port-forward svc/argocd-server -n argocd 8080:443"
+kubectl port-forward svc/argocd-server -n argocd 8080:443 >/dev/null
