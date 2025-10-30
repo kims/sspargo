@@ -9,6 +9,6 @@ spec:
     server: https://kubernetes.default.svc
   project: app1-project
   source:
-    path: app1/helm/
+    path: app1/
     repoURL: https://github.com/kims/ssp-argocd
     targetRevision: HEAD
