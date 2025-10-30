@@ -30,6 +30,7 @@ helm install sealed-secrets -n kube-system \
 curl -LO "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz"
 tar -xvzf "kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz" kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+rm -f kubeseal kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz
 
 kubectl create secret generic dev1-db-pass --from-literal=username=dev1 --from-literal=password=dev123 --dry-run=client -o json | kubeseal --namespace=dev1 --format=yaml > app1/templates/SealedSecret.db-pass.yaml
 kubectl create secret generic dev2-db-pass --from-literal=username=dev2 --from-literal=password=dev123 --dry-run=client -o json | kubeseal --namespace=dev2 --format=yaml > app2/templates/SealedSecret.db-pass.yaml
