@@ -43,7 +43,7 @@ kubectl rollout status deployment argocd-repo-server -n argocd --timeout=60s
 pkill -f "kubectl port-forward svc/argocd-server -n argocd 8080:443"
 kubectl port-forward svc/argocd-server -n argocd 8080:443 >/dev/null 2>&1 &
 
-#
+#work
 echo "Setup is done, now you either go to the gui or sync with the argocd binary from cli."
 echo ""
 echo "GUI: https://$(kubectl get cm argocd-cm -n argocd -o jsonpath="{.data.url}")/applications"

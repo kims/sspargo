@@ -1,8 +1,4 @@
 #!/bin/bash
-#
-export KUBESEAL_VERSION="0.32.2"   # pick the version you want
-
-
 openssl req -x509 -nodes -days 3650 -newkey rsa:4096 \
   -keyout sealed-secrets.key \
   -out sealed-secrets.crt \
@@ -13,7 +9,6 @@ kubectl -n kube-system create secret tls sealed-secrets-custom-key \
   --cert=sealed-secrets.crt \
   --key=sealed-secrets.key
 
-# Label it so the controller picks it up as the active key
 kubectl -n kube-system label secret sealed-secrets-custom-key \
   sealedsecrets.bitnami.com/sealed-secrets-key=active
 
