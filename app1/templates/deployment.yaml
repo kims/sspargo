@@ -18,7 +18,7 @@ spec:
       - name: ssp-container
         image: ltbproject/self-service-password:latest
         ports:
-        - containerPort: 80
+        - containerPort: 81
         volumeMounts:
         - name: ssp-config-volume
           mountPath: /var/www/conf/config.inc.local.php
